@@ -113,11 +113,12 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
 
 // Handle get single product
 func getSingleProduct(w http.ResponseWriter, r *http.Request) {
+	var product Product
+
 	// get id product by params url
 	vars := mux.Vars(r)
 	productID := vars["id"]
 
-	var product Product
 	// get product by id
 	db.First(&product, productID)
 
@@ -166,11 +167,8 @@ func deleteProduct(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	productID := vars["id"]
 
+	// Delete product from database
 	db.Delete(&Product{}, productID)
-
-	// var product Product
-	// // get product by id
-	// db.First(&product, productID)
 
 	res := Result{Status: 200, Data: "", Message: "Success delete product"}
 	result, err := json.Marshal(res)
